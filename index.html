@@ -1,0 +1,1491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy 16th Birthday! 🎂</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,700;1,900&family=Nunito:wght@300;400;600;700;900&family=Great+Vibes&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(145deg, #DBEAFE 0%, #BFDBFE 25%, #93C5FD 50%, #BFDBFE 75%, #DBEAFE 100%);
+            font-family: 'Nunito', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* ========== Background Stars ========== */
+        #bg-stars {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .bg-star {
+            position: absolute;
+            font-size: 1.2rem;
+            opacity: 0.15;
+            animation: bg-star-float 6s ease-in-out infinite;
+        }
+        @keyframes bg-star-float {
+            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.1; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 0.25; }
+        }
+
+
+        /* ========== Click-to-Start Overlay ========== */
+        #overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            background: radial-gradient(ellipse at center, #DBEAFE 0%, #93C5FD 70%, #60A5FA 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+            cursor: pointer;
+        }
+        #overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .overlay-inner {
+            text-align: center;
+            animation: gentle-pulse 2.5s ease-in-out infinite;
+        }
+        .overlay-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(3.5rem, 12vw, 7rem);
+            color: #1E40AF;
+            text-shadow: 0 3px 30px rgba(30, 64, 175, 0.2);
+            line-height: 1.1;
+        }
+        .overlay-sub {
+            font-size: clamp(1.1rem, 3vw, 1.6rem);
+            color: #3B82F6;
+            margin-top: 1rem;
+            font-weight: 300;
+            letter-spacing: 3px;
+        }
+        .overlay-hint {
+            margin-top: 3rem;
+            font-size: 1.1rem;
+            color: #60A5FA;
+            animation: fade-bounce 2s ease-in-out infinite;
+        }
+        @keyframes gentle-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+        @keyframes fade-bounce {
+            0%, 100% { opacity: 0.4; transform: translateY(0); }
+            50% { opacity: 1; transform: translateY(-8px); }
+        }
+
+
+        /* ========== Floating Words ========== */
+        #words-container {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 2;
+        }
+        .float-word {
+            position: absolute;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            padding: 8px 22px;
+            border-radius: 50px;
+            white-space: nowrap;
+            opacity: 0;
+            transform: scale(0.3) translateY(30px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            pointer-events: none;
+            will-change: transform, opacity;
+        }
+        .float-word.show {
+            animation: word-pop 3s ease forwards;
+        }
+        @keyframes word-pop {
+            0%   { opacity: 0; transform: scale(0.2) translateY(40px) rotate(-8deg); }
+            10%  { opacity: 1; transform: scale(1.05) translateY(0) rotate(2deg); }
+            18%  { transform: scale(1) translateY(0) rotate(0deg); }
+            50%  { opacity: 1; transform: translateY(-8px) rotate(0deg); }
+            100% { opacity: 0; transform: translateY(-35px) scale(0.85) rotate(5deg); }
+        }
+
+
+        /* ========== BIRTHDAY CARD ========== */
+        #card-container {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(0.2) rotateY(90deg);
+            transition: all 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+            pointer-events: none;
+        }
+        #card-container.show {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1) rotateY(0deg);
+            pointer-events: auto;
+        }
+
+        .birthday-card {
+            position: relative;
+            width: min(600px, 94vw);
+            background: linear-gradient(165deg, #FFFEF5 0%, #FFF9F0 30%, #FFFEF5 60%, #F0F8FF 100%);
+            border-radius: 28px;
+            padding: 50px 38px 44px;
+            box-shadow:
+                0 25px 100px rgba(30, 64, 175, 0.15),
+                0 10px 40px rgba(0,0,0,0.06),
+                inset 0 0 100px rgba(255, 215, 0, 0.04);
+            text-align: center;
+            overflow: visible;
+        }
+
+        .card-frame-outer {
+            position: absolute;
+            inset: -6px;
+            border: 2.5px solid rgba(212, 175, 55, 0.35);
+            border-radius: 32px;
+            pointer-events: none;
+        }
+        .card-frame-outer::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            border-radius: 34px;
+        }
+
+        .card-frame-mid {
+            position: absolute;
+            inset: 6px;
+            border: 1.5px solid rgba(100, 181, 246, 0.25);
+            border-radius: 24px;
+            pointer-events: none;
+        }
+        .card-frame-mid::before {
+            content: '';
+            position: absolute;
+            top: -4px; left: -4px; right: -4px; bottom: -4px;
+            border: 1px dashed rgba(212, 175, 55, 0.12);
+            border-radius: 28px;
+            pointer-events: none;
+        }
+
+        .corner {
+            position: absolute;
+            font-size: 1.5rem;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+        .corner-tl { top: 12px; left: 14px; }
+        .corner-tr { top: 12px; right: 14px; transform: scaleX(-1); }
+        .corner-bl { bottom: 12px; left: 14px; transform: scaleY(-1); }
+        .corner-br { bottom: 12px; right: 14px; transform: scale(-1, -1); }
+
+        .ribbon-bar {
+            position: absolute;
+            left: 12%;
+            right: 12%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #FFD700 20%, #FFC107 50%, #FFD700 80%, transparent);
+            border-radius: 2px;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        .ribbon-bar-top { top: 18px; }
+        .ribbon-bar-bottom { bottom: 18px; }
+
+        .bow-container {
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 5;
+            pointer-events: none;
+        }
+        .bow {
+            font-size: 2.2rem;
+            filter: drop-shadow(0 2px 8px rgba(212,175,55,0.3));
+            animation: bow-sway 3s ease-in-out infinite;
+        }
+        @keyframes bow-sway {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(4deg); }
+        }
+
+        .card-pattern {
+            position: absolute;
+            inset: 0;
+            border-radius: 28px;
+            background:
+                repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 30px,
+                    rgba(212, 175, 55, 0.015) 30px,
+                    rgba(212, 175, 55, 0.015) 31px
+                );
+            pointer-events: none;
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .balloons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 6px;
+            font-size: 1.8rem;
+        }
+        .balloons span {
+            display: inline-block;
+            animation: balloon-sway 3s ease-in-out infinite;
+            filter: drop-shadow(0 2px 6px rgba(0,0,0,0.06));
+        }
+        .balloons span:nth-child(2)  { animation-delay: 0.4s; font-size: 2rem; }
+        .balloons span:nth-child(3)  { animation-delay: 0.8s; }
+        .balloons span:nth-child(4)  { animation-delay: 0.2s; font-size: 2rem; }
+        .balloons span:nth-child(5)  { animation-delay: 1s; }
+        .balloons span:nth-child(6)  { animation-delay: 0.6s; font-size: 1.9rem; }
+        .balloons span:nth-child(7)  { animation-delay: 1.2s; }
+        .balloons span:nth-child(8)  { animation-delay: 0.3s; font-size: 2rem; }
+        @keyframes balloon-sway {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-8px) rotate(-3deg); }
+            75% { transform: translateY(-4px) rotate(3deg); }
+        }
+
+        .card-greeting {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(1.8rem, 5vw, 3.2rem);
+            background: linear-gradient(135deg, #1E40AF, #3B82F6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 4px 0 2px;
+            line-height: 1.2;
+            letter-spacing: 1px;
+        }
+
+        .card-age-wrap {
+            position: relative;
+            display: inline-block;
+            margin: 4px 0;
+        }
+        .card-age {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(5.5rem, 16vw, 10rem);
+            font-weight: 900;
+            font-style: italic;
+            background: linear-gradient(135deg, #FFD700, #FFA000, #FFD700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            filter: drop-shadow(0 3px 12px rgba(255, 193, 7, 0.3));
+        }
+        .age-sparkle {
+            position: absolute;
+            font-size: 1.4rem;
+            animation: sparkle-twinkle 1.5s ease-in-out infinite;
+            pointer-events: none;
+        }
+        .age-sparkle.s1 { top: -8px; left: -28px; animation-delay: 0s; }
+        .age-sparkle.s2 { top: -12px; right: -24px; animation-delay: 0.4s; }
+        .age-sparkle.s3 { bottom: -6px; left: -16px; animation-delay: 0.8s; font-size: 1rem; }
+        .age-sparkle.s4 { bottom: -10px; right: -20px; animation-delay: 1.2s; font-size: 1.1rem; }
+        .age-sparkle.s5 { top: 50%; left: -40px; animation-delay: 0.6s; font-size: 0.9rem; transform: translateY(-50%); }
+        .age-sparkle.s6 { top: 50%; right: -38px; animation-delay: 1s; font-size: 0.9rem; transform: translateY(-50%); }
+        @keyframes sparkle-twinkle {
+            0%, 100% { opacity: 0.2; transform: scale(0.7) rotate(0deg); }
+            50% { opacity: 1; transform: scale(1.3) rotate(20deg); filter: brightness(1.4); }
+        }
+
+        .card-date {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1rem, 2.5vw, 1.4rem);
+            color: #64B5F6;
+            font-style: italic;
+            margin: 6px 0 10px;
+            letter-spacing: 2px;
+        }
+        .card-date::before,
+        .card-date::after {
+            content: ' ~ ';
+            color: #93C5FD;
+        }
+
+        .candles-row {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 8px 0 12px;
+        }
+        .candle-item {
+            font-size: 1.3rem;
+            animation: candle-flicker 0.5s ease-in-out infinite alternate;
+            filter: drop-shadow(0 0 6px rgba(255, 193, 7, 0.2));
+        }
+        .candle-item:nth-child(2)  { animation-delay: 0.07s; font-size: 1.4rem; }
+        .candle-item:nth-child(3)  { animation-delay: 0.14s; }
+        .candle-item:nth-child(4)  { animation-delay: 0.21s; font-size: 1.35rem; }
+        .candle-item:nth-child(5)  { animation-delay: 0.28s; }
+        .candle-item:nth-child(6)  { animation-delay: 0.35s; font-size: 1.4rem; }
+        .candle-item:nth-child(7)  { animation-delay: 0.07s; }
+        .candle-item:nth-child(8)  { animation-delay: 0.14s; font-size: 1.3rem; }
+        .candle-item:nth-child(9)  { animation-delay: 0.21s; }
+        .candle-item:nth-child(10) { animation-delay: 0.28s; font-size: 1.35rem; }
+        .candle-item:nth-child(11) { animation-delay: 0.35s; }
+        .candle-item:nth-child(12) { animation-delay: 0.07s; font-size: 1.3rem; }
+        @keyframes candle-flicker {
+            0% { transform: scale(1) rotate(-1deg); }
+            100% { transform: scale(1.06) rotate(1deg); }
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin: 6px auto;
+            max-width: 300px;
+        }
+        .divider-line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(212,175,55,0.3), transparent);
+        }
+        .divider-icon { font-size: 1rem; opacity: 0.5; }
+
+        .card-message {
+            font-size: clamp(0.95rem, 2vw, 1.15rem);
+            color: #546E7A;
+            line-height: 1.9;
+            margin: 8px auto 6px;
+            max-width: 420px;
+            font-weight: 400;
+        }
+        .card-message .en {
+            font-family: 'Dancing Script', cursive;
+            color: #1E40AF;
+            font-weight: 700;
+            font-size: 1.15em;
+        }
+        .card-message .cn {
+            color: #6B7280;
+            font-size: 0.92em;
+            letter-spacing: 1px;
+        }
+
+        .card-cake {
+            font-size: 3.2rem;
+            margin: 6px 0 2px;
+            display: inline-block;
+            animation: cake-bounce 2.5s ease-in-out infinite;
+            filter: drop-shadow(0 3px 10px rgba(0,0,0,0.06));
+        }
+        @keyframes cake-bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .bottom-deco {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            margin-top: 6px;
+            font-size: 1.2rem;
+            opacity: 0.4;
+            letter-spacing: 4px;
+        }
+
+        .inner-sparkle {
+            position: absolute;
+            pointer-events: none;
+            font-size: 0.8rem;
+            opacity: 0;
+            animation: inner-sparkle-float 3s ease-in-out infinite;
+        }
+        .inner-sparkle:nth-child(1) { top: 15%; left: 8%; animation-delay: 0s; }
+        .inner-sparkle:nth-child(2) { top: 25%; right: 10%; animation-delay: 0.6s; }
+        .inner-sparkle:nth-child(3) { bottom: 30%; left: 6%; animation-delay: 1.2s; }
+        .inner-sparkle:nth-child(4) { bottom: 20%; right: 8%; animation-delay: 1.8s; }
+        .inner-sparkle:nth-child(5) { top: 40%; left: 4%; animation-delay: 0.3s; font-size: 0.6rem; }
+        .inner-sparkle:nth-child(6) { top: 50%; right: 5%; animation-delay: 0.9s; font-size: 0.6rem; }
+        .inner-sparkle:nth-child(7) { top: 70%; left: 12%; animation-delay: 1.5s; font-size: 0.5rem; }
+        .inner-sparkle:nth-child(8) { top: 65%; right: 12%; animation-delay: 2.1s; font-size: 0.5rem; }
+        @keyframes inner-sparkle-float {
+            0%, 100% { opacity: 0; transform: translateY(10px) scale(0.5); }
+            50% { opacity: 0.7; transform: translateY(-15px) scale(1.2); }
+        }
+
+
+        /* ========== BUTTONS under card ========== */
+        #buttons-container {
+            position: fixed;
+            bottom: 36px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            z-index: 15;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition-delay: 0.4s;
+            pointer-events: none;
+            flex-wrap: wrap;
+            padding: 0 16px;
+        }
+        #buttons-container.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        .card-btn {
+            flex-shrink: 0;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            padding: 14px 32px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            outline: none;
+            letter-spacing: 0.5px;
+        }
+        .card-btn:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.13);
+        }
+        .card-btn:active {
+            transform: translateY(0) scale(0.97);
+        }
+        .card-btn.leave-btn {
+            background: linear-gradient(135deg, #1E40AF, #3B82F6);
+            color: #fff;
+        }
+        .card-btn.view-btn {
+            background: linear-gradient(135deg, #FFD700, #FFA000);
+            color: #1E40AF;
+        }
+
+
+        /* ========== MODALS ========== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            background: rgba(0,0,0,0.35);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            padding: 20px;
+        }
+        .modal-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-box {
+            background: #fff;
+            border-radius: 20px;
+            padding: 32px 32px 28px;
+            width: min(520px, 100%);
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.15);
+            transform: scale(0.9) translateY(30px);
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .modal-overlay.open .modal-box {
+            transform: scale(1) translateY(0);
+        }
+        .modal-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            color: #1E40AF;
+            margin-bottom: 6px;
+            text-align: center;
+        }
+        .modal-close {
+            float: right;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #9CA3AF;
+            cursor: pointer;
+            line-height: 1;
+            padding: 0 4px;
+            transition: color 0.2s;
+        }
+        .modal-close:hover { color: #4B5563; }
+
+        /* -- Leave Message Form -- */
+        .msg-form { margin-top: 16px; }
+        .msg-form label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 6px;
+        }
+        .msg-form textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 12px 16px;
+            border: 1.5px solid #D1D5DB;
+            border-radius: 12px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 0.95rem;
+            resize: vertical;
+            outline: none;
+            transition: border-color 0.2s;
+            line-height: 1.6;
+        }
+        .msg-form textarea:focus {
+            border-color: #3B82F6;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.12);
+        }
+
+        .msg-form .anon-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 14px 0 12px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .msg-form .anon-row label {
+            display: inline;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #374151;
+            margin: 0;
+            cursor: pointer;
+        }
+        .msg-form .anon-row input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #3B82F6;
+            cursor: pointer;
+        }
+        .msg-form .name-input-wrap {
+            margin-bottom: 14px;
+            opacity: 1;
+            max-height: 80px;
+            overflow: hidden;
+            transition: opacity 0.3s ease, max-height 0.3s ease;
+        }
+        .msg-form .name-input-wrap.hidden {
+            opacity: 0;
+            max-height: 0;
+            margin-bottom: 0;
+            pointer-events: none;
+        }
+        .msg-form .name-input-wrap input {
+            width: 100%;
+            padding: 10px 16px;
+            border: 1.5px solid #D1D5DB;
+            border-radius: 12px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .msg-form .name-input-wrap input:focus {
+            border-color: #3B82F6;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.12);
+        }
+
+        .msg-form .form-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            margin-top: 6px;
+        }
+        .msg-form .form-actions button {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            padding: 10px 28px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .msg-form .form-actions button:active {
+            transform: scale(0.96);
+        }
+        .msg-form .btn-cancel {
+            background: #E5E7EB;
+            color: #4B5563;
+        }
+        .msg-form .btn-cancel:hover {
+            background: #D1D5DB;
+        }
+        .msg-form .btn-submit {
+            background: linear-gradient(135deg, #1E40AF, #3B82F6);
+            color: #fff;
+        }
+        .msg-form .btn-submit:hover {
+            box-shadow: 0 4px 16px rgba(59,130,246,0.3);
+        }
+        .msg-form .btn-submit:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* -- View Messages -- */
+        .msg-list { margin-top: 16px; }
+        .msg-list-empty {
+            text-align: center;
+            padding: 30px 0;
+            color: #9CA3AF;
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+        .msg-item {
+            background: #F9FAFB;
+            border-radius: 14px;
+            padding: 16px 18px;
+            margin-bottom: 12px;
+            border: 1px solid #F3F4F6;
+            transition: background 0.2s;
+        }
+        .msg-item:hover {
+            background: #F3F4F6;
+        }
+        .msg-item .msg-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .msg-item .msg-author {
+            font-weight: 700;
+            color: #1E40AF;
+            font-size: 0.95rem;
+        }
+        .msg-item .msg-name-input {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #6B7280;
+            font-style: italic;
+        }
+        .msg-item .msg-date {
+            font-size: 0.75rem;
+            color: #9CA3AF;
+            white-space: nowrap;
+        }
+        .msg-item .msg-text {
+            color: #374151;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            word-break: break-word;
+        }
+
+        .modal-box .view-close-wrap {
+            text-align: center;
+            margin-top: 16px;
+        }
+        .modal-box .view-close-wrap button {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            padding: 10px 28px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            background: #E5E7EB;
+            color: #4B5563;
+            transition: all 0.2s;
+        }
+        .modal-box .view-close-wrap button:hover {
+            background: #D1D5DB;
+        }
+
+
+        /* ========== Confetti Canvas ========== */
+        #confetti-canvas {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 20;
+        }
+
+
+        /* ========== Music Player (hidden) ========== */
+        #music-player {
+            position: absolute;
+            width: 0;
+            height: 0;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+
+        /* ========== Toast ========== */
+        .toast {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            z-index: 3000;
+            background: rgba(30, 64, 175, 0.95);
+            color: #fff;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+            white-space: nowrap;
+            backdrop-filter: blur(8px);
+        }
+        .toast.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+
+        /* ========== Responsive ========== */
+        @media (max-width: 500px) {
+            .birthday-card { padding: 36px 18px 30px; }
+            .balloons { font-size: 1.3rem; gap: 6px; }
+            .balloons span:nth-child(2),
+            .balloons span:nth-child(4),
+            .balloons span:nth-child(8) { font-size: 1.4rem !important; }
+            .candles-row { gap: 4px; }
+            .candle-item { font-size: 1rem !important; }
+            .corner { font-size: 1rem; }
+            .corner-tl { top: 8px; left: 8px; }
+            .corner-tr { top: 8px; right: 8px; }
+            .corner-bl { bottom: 8px; left: 8px; }
+            .corner-br { bottom: 8px; right: 8px; }
+            .bow { font-size: 1.6rem; }
+            .bow-container { top: -14px; }
+            .card-cake { font-size: 2.4rem; }
+            .card-date::before, .card-date::after { content: ' - '; }
+            .age-sparkle { display: none; }
+            .inner-sparkle { display: none; }
+            #buttons-container { bottom: 20px; gap: 12px; }
+            .card-btn { font-size: 0.9rem; padding: 12px 22px; }
+            .modal-box { padding: 24px 18px 20px; }
+            .modal-title { font-size: 1.5rem; }
+        }
+
+        @media (max-width: 380px) {
+            .birthday-card { padding: 28px 12px 22px; }
+            .balloons { font-size: 1rem; gap: 4px; }
+            .candles-row { gap: 2px; }
+            .candle-item { font-size: 0.8rem !important; }
+            .card-btn { font-size: 0.8rem; padding: 10px 16px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Stars -->
+    <div id="bg-stars"></div>
+
+    <!-- Click-to-Start Overlay -->
+    <div id="overlay">
+        <div class="overlay-inner">
+            <div class="overlay-title">Happy 16th Birthday!</div>
+            <div class="overlay-sub">🎶 Let the celebration begin 🎶</div>
+            <div class="overlay-hint">✦ Tap anywhere to start ✦</div>
+        </div>
+    </div>
+
+    <!-- Floating Words -->
+    <div id="words-container"></div>
+
+    <!-- BIRTHDAY CARD -->
+    <div id="card-container">
+        <div class="birthday-card">
+            <div class="card-pattern"></div>
+            <div class="card-frame-outer"></div>
+            <div class="card-frame-mid"></div>
+
+            <div class="ribbon-bar ribbon-bar-top"></div>
+            <div class="ribbon-bar ribbon-bar-bottom"></div>
+
+            <div class="corner corner-tl">❀</div>
+            <div class="corner corner-tr">❀</div>
+            <div class="corner corner-bl">❀</div>
+            <div class="corner corner-br">❀</div>
+
+            <div class="bow-container"><span class="bow">🎀</span></div>
+
+            <div class="inner-sparkle">✦</div>
+            <div class="inner-sparkle">✧</div>
+            <div class="inner-sparkle">✦</div>
+            <div class="inner-sparkle">✧</div>
+            <div class="inner-sparkle">✦</div>
+            <div class="inner-sparkle">✧</div>
+            <div class="inner-sparkle">✦</div>
+            <div class="inner-sparkle">✧</div>
+
+            <div class="card-content">
+                <div class="balloons">
+                    <span>🎈</span><span>🎈</span><span>🎈</span>
+                    <span>🎈</span><span>🎈</span><span>🎈</span>
+                    <span>🎈</span><span>🎈</span>
+                </div>
+
+                <div class="card-greeting">Happy</div>
+
+                <div class="card-age-wrap">
+                    <div class="card-age">16</div>
+                    <span class="age-sparkle s1">✨</span>
+                    <span class="age-sparkle s2">⭐</span>
+                    <span class="age-sparkle s3">✨</span>
+                    <span class="age-sparkle s4">⭐</span>
+                    <span class="age-sparkle s5">✦</span>
+                    <span class="age-sparkle s6">✦</span>
+                </div>
+
+                <div class="card-greeting">Birthday!</div>
+
+                <div class="card-date">— June 22, 2026 —</div>
+
+                <div class="divider">
+                    <span class="divider-line"></span>
+                    <span class="divider-icon">✿</span>
+                    <span class="divider-line"></span>
+                </div>
+
+                <div class="candles-row">
+                    <span class="candle-item">🕯️</span>
+                    <span class="candle-item">🕯️</span>
+                    <span class="candle-item">🕯️</span>
+                    <span class="candle-item">🕯️</span>
+                    <span class="candle-item">🕯️</span>
+                    <span class="candle-item">🕯️</span>
+                    <span class="candle-item">🕯️</span>
+                    <span class="candle-item">🕯️</span>
+                    <span class="candle-item">🕯️</span>
+                    <span class="candle-item">🕯️</span>
+                    <span class="candle-item">🕯️</span>
+                    <span class="candle-item">🕯️</span>
+                </div>
+
+                <div class="divider">
+                    <span class="divider-line"></span>
+                    <span class="divider-icon">❀</span>
+                    <span class="divider-line"></span>
+                </div>
+
+                <div class="card-message">
+                    <span class="en">May your sixteenth year</span><br>
+                    <span class="en">be filled with joy, love, and endless blessings.</span><br>
+                    <span class="cn">十六岁生日快乐，愿你前程似锦，梦想成真！</span><br>
+                    <span class="en">You are amazing — never forget that! 💫</span>
+                </div>
+
+                <div style="margin-top:2px;">
+                    <span class="card-cake">🎂</span>
+                </div>
+
+                <div class="bottom-deco">
+                    <span>~</span><span>🎉</span><span>✦</span>
+                    <span>🎊</span><span>✦</span><span>🎉</span><span>~</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Buttons under card -->
+    <div id="buttons-container">
+        <button class="card-btn leave-btn" onclick="openLeaveModal()">💬 Leave a Message</button>
+        <button class="card-btn view-btn" onclick="openViewModal()">📖 View Messages</button>
+    </div>
+
+    <!-- ====== MODAL: Leave Message ====== -->
+    <div id="modal-leave" class="modal-overlay">
+        <div class="modal-box">
+            <button class="modal-close" onclick="closeLeaveModal()">&times;</button>
+            <div class="modal-title">Leave a Birthday Message 💌</div>
+            <form class="msg-form" id="leave-form" onsubmit="submitMessage(event)">
+                <label for="msg-text">Your blessing</label>
+                <textarea id="msg-text" placeholder="Write your birthday wishes..." required></textarea>
+
+                <div class="anon-row">
+                    <label for="msg-anon">
+                        <input type="checkbox" id="msg-anon" onchange="toggleNameInput()" checked>
+                        Leave anonymously
+                    </label>
+                </div>
+
+                <div class="name-input-wrap hidden" id="name-wrap">
+                    <label for="msg-name">Your name</label>
+                    <input type="text" id="msg-name" placeholder="Enter your name..." maxlength="30">
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel" onclick="closeLeaveModal()">Cancel</button>
+                    <button type="submit" class="btn-submit" id="submit-msg-btn">Send 💫</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ====== MODAL: View Messages ====== -->
+    <div id="modal-view" class="modal-overlay">
+        <div class="modal-box">
+            <button class="modal-close" onclick="closeViewModal()">&times;</button>
+            <div class="modal-title">Birthday Messages 📖</div>
+            <div class="msg-list" id="msg-list">
+                <!-- rendered by JS -->
+            </div>
+            <div class="view-close-wrap">
+                <button onclick="closeViewModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confetti Canvas -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Toast -->
+    <div id="toast" class="toast"></div>
+
+    <!-- Hidden div for YouTube iframe injection -->
+    <div id="music-player"></div>
+
+    <script>
+        // ============================================================
+        //  MESSAGES — Firebase Realtime Database (cross-device)
+        // ============================================================
+        // ★ SETUP:
+        //   1. Go to https://console.firebase.google.com → Create a project
+        //   2. Build → Realtime Database → Create Database (start in test mode)
+        //   3. Copy the Database URL (e.g. https://xxx.firebaseio.com)
+        //   4. Paste it as FIREBASE_DB_URL below
+        // ============================================================
+        var FIREBASE_DB_URL = 'https://bday16-6e803-default-rtdb.firebaseio.com'; // ← PASTE your Firebase RTDB URL here (see instructions above)
+
+        var STORAGE_KEY = 'birthday16_messages';
+        var _fbFallback = !FIREBASE_DB_URL;   // use localStorage if no Firebase URL
+
+        /** Read all messages — returns a Promise */
+        function getMessages() {
+            if (!_fbFallback) {
+                return fetch(FIREBASE_DB_URL + '/messages.json?orderBy="$key"')
+                    .then(function (r) { return r.json(); })
+                    .then(function (data) {
+                        if (!data) return [];
+                        var out = [];
+                        for (var key in data) {
+                            if (data.hasOwnProperty(key)) {
+                                var m = data[key];
+                                m.firebaseKey = key;
+                                out.push(m);
+                            }
+                        }
+                        return out;
+                    })
+                    .catch(function () { return []; });
+            }
+            // fallback: localStorage
+            try {
+                return Promise.resolve(JSON.parse(localStorage.getItem(STORAGE_KEY)) || []);
+            } catch (e) { return Promise.resolve([]); }
+        }
+
+        /** Persist one message — returns a Promise */
+        function addMessage(text, name, anonymous) {
+            var msg = {
+                text: text.trim(),
+                name: name || 'Anonymous 💫',
+                anonymous: !!anonymous,
+                timestamp: Date.now()
+            };
+            if (!_fbFallback) {
+                return fetch(FIREBASE_DB_URL + '/messages.json', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(msg)
+                }).then(function (r) {
+                    if (!r.ok) { throw new Error('Firebase returned ' + r.status); }
+                    return msg;
+                }).catch(function (err) {
+                    console.error('Firebase save error:', err);
+                    throw err;
+                });
+            }
+            // fallback: localStorage
+            var msgs = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+            msg.id = Date.now();
+            msgs.push(msg);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(msgs));
+            return Promise.resolve(msg);
+        }
+
+
+        // ============================================================
+        //  LEAVE MODAL
+        // ============================================================
+        function openLeaveModal() {
+            document.getElementById('modal-leave').classList.add('open');
+            document.getElementById('msg-text').focus();
+        }
+        function closeLeaveModal() {
+            document.getElementById('modal-leave').classList.remove('open');
+            document.getElementById('leave-form').reset();
+            document.getElementById('msg-anon').checked = true;
+            toggleNameInput();
+        }
+        function toggleNameInput() {
+            var anon = document.getElementById('msg-anon').checked;
+            var wrap = document.getElementById('name-wrap');
+            if (anon) {
+                wrap.classList.add('hidden');
+            } else {
+                wrap.classList.remove('hidden');
+                document.getElementById('msg-name').focus();
+            }
+        }
+
+        // Close modals on backdrop click
+        document.getElementById('modal-leave').addEventListener('click', function (e) {
+            if (e.target === this) closeLeaveModal();
+        });
+        document.getElementById('modal-view').addEventListener('click', function (e) {
+            if (e.target === this) closeViewModal();
+        });
+        // Close modals on Escape
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                if (document.getElementById('modal-leave').classList.contains('open')) closeLeaveModal();
+                if (document.getElementById('modal-view').classList.contains('open')) closeViewModal();
+            }
+        });
+
+        function submitMessage(e) {
+            e.preventDefault();
+            var text = document.getElementById('msg-text').value.trim();
+            if (!text) return;
+
+            var anon = document.getElementById('msg-anon').checked;
+            var name = anon ? '' : document.getElementById('msg-name').value.trim();
+
+            var btn = document.getElementById('submit-msg-btn');
+            btn.disabled = true;
+            btn.textContent = 'Sending...';
+
+            addMessage(text, name || 'Anonymous 💫', false).then(function () {
+                closeLeaveModal();
+                showToast('🎉 Message saved! Thank you 💖');
+            }).catch(function (err) {
+                console.error('Submit failed:', err);
+                showToast('❌ Failed to save. Try again!');
+            }).finally(function () {
+                btn.disabled = false;
+                btn.textContent = 'Send 💫';
+            });
+        }
+
+
+        // ============================================================
+        //  VIEW MODAL
+        // ============================================================
+        function openViewModal() {
+            document.getElementById('modal-view').classList.add('open');
+            renderMessages();
+        }
+        function closeViewModal() {
+            document.getElementById('modal-view').classList.remove('open');
+        }
+        function renderMessages() {
+            var container = document.getElementById('msg-list');
+            container.innerHTML = '<div class="msg-list-empty" style="opacity:0.6;">📖 Loading messages...</div>';
+
+            getMessages().then(function (msgs) {
+                if (!msgs || msgs.length === 0) {
+                    container.innerHTML = '<div class="msg-list-empty">📭 No messages yet.<br>Be the first to leave one! 💌</div>';
+                    return;
+                }
+
+                // Sort by timestamp ascending, then reverse for newest-first
+                msgs.sort(function (a, b) { return (a.timestamp || 0) - (b.timestamp || 0); });
+
+                var html = '';
+                for (var i = msgs.length - 1; i >= 0; i--) {
+                    var m = msgs[i];
+                    var d = new Date(m.timestamp);
+                    var dateStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) +
+                        ' at ' + d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+                    html +=
+                        '<div class="msg-item">' +
+                            '<div class="msg-header">' +
+                                '<span class="msg-author">' + escapeHtml(m.name) + '</span>' +
+                                '<span class="msg-date">' + dateStr + '</span>' +
+                            '</div>' +
+                            '<div class="msg-text">' + escapeHtml(m.text) + '</div>' +
+                        '</div>';
+                }
+                container.innerHTML = html;
+            }).catch(function () {
+                container.innerHTML = '<div class="msg-list-empty">❌ Failed to load messages.</div>';
+            });
+        }
+
+        function escapeHtml(str) {
+            var div = document.createElement('div');
+            div.appendChild(document.createTextNode(str));
+            return div.innerHTML;
+        }
+
+
+        // ============================================================
+        //  TOAST
+        // ============================================================
+        var toastTimer = null;
+        function showToast(msg) {
+            var el = document.getElementById('toast');
+            el.textContent = msg;
+            el.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(function () {
+                el.classList.remove('show');
+            }, 2800);
+        }
+
+
+        // ============================================================
+        //  MUSIC — direct iframe injection on user click
+        // ============================================================
+        var musicStarted = false;
+
+        function startMusic() {
+            if (musicStarted) return;
+            musicStarted = true;
+
+            var container = document.getElementById('music-player');
+            var iframe = document.createElement('iframe');
+            iframe.id = 'yt-audio';
+            iframe.style.cssText = 'position:fixed;left:-9999px;top:0;width:200px;height:200px;opacity:0;pointer-events:none;z-index:-1;';
+            iframe.src = 'https://www.youtube.com/embed/E4tIHBx7bqc?autoplay=1&loop=1&playlist=E4tIHBx7bqc&controls=0&showinfo=0&rel=0';
+            iframe.allow = 'autoplay; encrypted-media';
+            iframe.title = 'Birthday Music';
+            iframe.setAttribute('allowfullscreen', '');
+            container.appendChild(iframe);
+        }
+
+
+        // ============================================================
+        //  BACKGROUND STARS
+        // ============================================================
+        (function initBgStars() {
+            var container = document.getElementById('bg-stars');
+            var chars = ['✦', '✧', '·', '✦', '✧'];
+            for (var i = 0; i < 30; i++) {
+                var el = document.createElement('span');
+                el.className = 'bg-star';
+                el.textContent = chars[i % chars.length];
+                el.style.left = Math.random() * 100 + '%';
+                el.style.top = Math.random() * 100 + '%';
+                el.style.animationDelay = (Math.random() * 6) + 's';
+                el.style.animationDuration = (5 + Math.random() * 5) + 's';
+                el.style.fontSize = (0.7 + Math.random() * 1) + 'rem';
+                container.appendChild(el);
+            }
+        })();
+
+
+        // ============================================================
+        //  BLESSINGS — English + 简体中文
+        // ============================================================
+        var blessings = [
+            '🎂 Happy Birthday!',
+            '🎉 16th Birthday!',
+            '♪ BLESSING ♪',
+            '🎈 May joy fill your heart!',
+            '✨ Wishing you the best!',
+            '💖 Stay blessed & happy!',
+            '🎊 Cheers to 16 years!',
+            '💫 Dreams come true!',
+            '🌟 Shine bright!',
+            '💝 You are so loved!',
+            '🎶 Hip hip HOORAY!',
+            '💫 Thank you for being born ✨',
+            '🌈 You deserve happiness!',
+            '⭐ Enjoy every moment!',
+            '🎀 Here\'s to an amazing year!',
+            '🕯️ Make a wish!',
+            '🌸 16 and amazing!',
+            '🎉 Celebrate!',
+            '💕 You\'re incredible!',
+            '✨ Keep smiling!',
+            '🌟 The best is yet to come!',
+            '🎵 Dance like nobody\'s watching!',
+            '💫 Fly high!',
+            '⭐ Spread your wings!',
+            '🌟 You\'re a star!',
+            '🎊 Peace, love & joy!',
+            '💖 So proud of you!',
+            '✨ Live your dreams!',
+            '🌸 Happiness awaits!',
+            '🎉 Let\'s celebrate!',
+            '🎂 生日快乐！',
+            '🎉 十六岁快乐！',
+            '✨ 祝福你！',
+            '🎈 万事如意！',
+            '🌟 前程似锦！',
+            '💫 心想事成！',
+            '🎊 幸福美满！',
+            '💖 健康快乐！',
+            '🎀 天天开心！',
+            '🕯️ 梦想成真！',
+            '🌸 青春永驻！',
+            '⭐ 一帆风顺！',
+            '🎵 平安喜乐！',
+            '💕 学业进步！',
+            '✨ 好运连连！',
+            '🌈 笑口常开！',
+            '🌟 未来可期！',
+            '💫 星光璀璨！',
+            '🎉 被爱包围！',
+            '🌺 岁岁平安！',
+            '🎊 生辰吉乐！',
+            '💝 永远快乐！',
+            '🌸 百事无忧！',
+            '✨ 顺遂无虞！',
+            '🎂 皆得所愿！'
+        ];
+
+        var pastelColors = [
+            'rgba(255, 182, 193, 0.88)',
+            'rgba(179, 229, 252, 0.88)',
+            'rgba(200, 230, 201, 0.88)',
+            'rgba(255, 224, 178, 0.88)',
+            'rgba(209, 196, 233, 0.88)',
+            'rgba(255, 205, 210, 0.88)',
+            'rgba(224, 242, 254, 0.88)',
+            'rgba(248, 187, 208, 0.88)',
+            'rgba(178, 235, 242, 0.88)',
+            'rgba(255, 241, 188, 0.88)'
+        ];
+        var textColors = [
+            '#2C3E50', '#1A237E', '#4A148C', '#880E4F',
+            '#01579B', '#004D40', '#311B92', '#B71C1C',
+            '#0D47A1', '#1B5E20', '#E65100', '#4A148C'
+        ];
+
+        function spawnWord() {
+            var container = document.getElementById('words-container');
+            var word = blessings[Math.floor(Math.random() * blessings.length)];
+            var el = document.createElement('div');
+            el.className = 'float-word';
+            el.textContent = word;
+
+            var bg = pastelColors[Math.floor(Math.random() * pastelColors.length)];
+            var fg = textColors[Math.floor(Math.random() * textColors.length)];
+            var size = 16 + Math.random() * 24;
+
+            var maxW = window.innerWidth - 220;
+            var maxH = window.innerHeight - 100;
+            var left = 10 + Math.random() * Math.max(maxW, 10);
+            var top = 20 + Math.random() * Math.max(maxH * 0.75, 20);
+
+            el.style.left = left + 'px';
+            el.style.top = top + 'px';
+            el.style.fontSize = size + 'px';
+            el.style.background = bg;
+            el.style.color = fg;
+
+            container.appendChild(el);
+
+            requestAnimationFrame(function () { el.classList.add('show'); });
+
+            setTimeout(function () {
+                if (el.parentNode) el.remove();
+            }, 3200);
+        }
+
+        function startWords() {
+            var burstCount = 0;
+            var maxBurst = 45;
+
+            function burstWave() {
+                if (burstCount >= maxBurst) return;
+                var count = 2 + Math.floor(Math.random() * 2);
+                for (var i = 0; i < count; i++) {
+                    spawnWord();
+                    burstCount++;
+                    if (burstCount >= maxBurst) break;
+                }
+                if (burstCount < maxBurst) {
+                    setTimeout(burstWave, 80 + Math.random() * 40);
+                } else {
+                    setTimeout(showCard, 600);
+                }
+            }
+
+            burstWave();
+        }
+
+
+        // ============================================================
+        //  CARD + BUTTONS
+        // ============================================================
+        var cardShown = false;
+
+        function showCard() {
+            if (cardShown) return;
+            cardShown = true;
+            document.getElementById('card-container').classList.add('show');
+            startConfetti();
+            // Buttons appear shortly after card
+            setTimeout(function () {
+                document.getElementById('buttons-container').classList.add('show');
+            }, 800);
+        }
+
+
+        // ============================================================
+        //  CONFETTI
+        // ============================================================
+        var canvas = document.getElementById('confetti-canvas');
+        var ctx = canvas.getContext('2d');
+        var confettiPieces = [];
+        var confettiRunning = false;
+        var confettiRAF = null;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function ConfettiPiece() {
+            this.x = Math.random() * canvas.width;
+            this.y = -20 - Math.random() * 150;
+            this.w = 5 + Math.random() * 10;
+            this.h = 3 + Math.random() * 7;
+            this.color = ['#FF6B6B','#FFD93D','#6BCB77','#4D96FF','#FF6FB0','#C084FC','#F472B6','#22D3EE','#FB923C','#A78BFA','#FBBF24','#34D399'][Math.floor(Math.random() * 12)];
+            this.vy = 1.2 + Math.random() * 3.5;
+            this.vx = -2.5 + Math.random() * 5;
+            this.rotation = Math.random() * Math.PI * 2;
+            this.rotSpeed = -0.08 + Math.random() * 0.16;
+            this.opacity = 0.7 + Math.random() * 0.3;
+        }
+        ConfettiPiece.prototype.update = function () {
+            this.y += this.vy;
+            this.x += this.vx;
+            this.vx *= 0.99;
+            this.rotation += this.rotSpeed;
+            if (this.y > canvas.height + 20) {
+                this.y = -20 - Math.random() * 50;
+                this.x = Math.random() * canvas.width;
+                this.vy = 1.2 + Math.random() * 3.5;
+            }
+        };
+        ConfettiPiece.prototype.draw = function () {
+            ctx.save();
+            ctx.translate(this.x, this.y);
+            ctx.rotate(this.rotation);
+            ctx.globalAlpha = this.opacity * Math.min(1, (this.y + 20) / 60);
+            ctx.fillStyle = this.color;
+            ctx.fillRect(-this.w / 2, -this.h / 2, this.w, this.h);
+            ctx.restore();
+        };
+
+        function startConfetti() {
+            if (confettiRunning) return;
+            confettiRunning = true;
+            confettiPieces = [];
+            for (var i = 0; i < 250; i++) {
+                confettiPieces.push(new ConfettiPiece());
+            }
+            animateConfetti();
+            setTimeout(function () {
+                confettiRunning = false;
+                if (confettiRAF) {
+                    cancelAnimationFrame(confettiRAF);
+                    confettiRAF = null;
+                }
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }, 10000);
+        }
+
+        function animateConfetti() {
+            if (!confettiRunning) return;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (var i = 0; i < confettiPieces.length; i++) {
+                confettiPieces[i].update();
+                confettiPieces[i].draw();
+            }
+            confettiRAF = requestAnimationFrame(animateConfetti);
+        }
+
+
+        // ============================================================
+        //  START
+        // ============================================================
+        function startEverything() {
+            var overlay = document.getElementById('overlay');
+            if (overlay.classList.contains('hidden')) return;
+            overlay.classList.add('hidden');
+            startMusic();
+            startWords();
+        }
+
+        document.getElementById('overlay').addEventListener('click', startEverything);
+        document.addEventListener('keydown', function () {
+            var overlay = document.getElementById('overlay');
+            if (!overlay.classList.contains('hidden')) {
+                startEverything();
+            }
+        });
+
+        console.log('🎂 Happy 16th Birthday! 🎉');
+        console.log('♪ Blessing by halyosy ♪');
+    </script>
+
+</body>
+</html>
